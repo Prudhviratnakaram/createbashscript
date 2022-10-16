@@ -6,8 +6,6 @@ SG_NAME="allow-all"
 ENV="dev"
 #############################
 
-
-
 create_ec2() {
   PRIVATE_IP=$(aws ec2 run-instances \
       --image-id ${AMI_ID} \
@@ -17,7 +15,7 @@ create_ec2() {
       --security-group-ids ${SGID} \
       --iam-instance-profile Name=SecretManager_Role_for_RoboShop_Nodes \
       | jq '.Instances[].PrivateIpAddress' | sed -e 's/"//g')
-      echo Server IP Address = ${PRIVATE_IP}
+
 }
 
 AMI_ID=$(aws ec2 describe-images --filters "Name=name,Values=Centos-7-DevOps-Practice" | jq '.Images[].ImageId' | sed -e 's/"//g')
