@@ -13,9 +13,8 @@ create_ec2() {
       --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=${COMPONENT}}]" \
       --instance-market-options "MarketType=spot,SpotOptions={SpotInstanceType=persistent,InstanceInterruptionBehavior=stop}"\
       --security-group-ids ${SGID} \
-      --iam-instance-profile Name=aws-cli-workstation \
       | jq '.Instances[].PrivateIpAddress' | sed -e 's/"//g')
-
+      echo Server IP Address = ${PRIVATE_IP}
 }
 
 AMI_ID=$(aws ec2 describe-images --filters "Name=name,Values=Centos-7-DevOps-Practice" | jq '.Images[].ImageId' | sed -e 's/"//g')
